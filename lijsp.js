@@ -1,6 +1,25 @@
 var lij = {};
 
 lij.sp = function(list, context){
+
+    context = context||{};
+
+    if(Object.prototype.toString.call(list) !== '[object Array]'){
+	// literals
+
+    }else{
+	if(Object.prototype.toString.call(list[0]) === '[object Array]'){
+	    
+	}else if(Object.prototype.toString.call(list[0]) === '[object Object]'){
+	    
+	    for(var kk in list[0]){}
+
+	}else if(!list.length) return null;
+	else{
+	    // lookup a function from this non-object
+	}
+    }
+
     // use this to process query lists into batch calls or whatever
     // which can be executed parallel if you want (which is a jsql function)
 
@@ -8,7 +27,7 @@ lij.sp = function(list, context){
 
     
     // list of default functions needed
-    // set, setq
+    // set, setq, retString
 
 
     // list of built in macros needed
@@ -24,9 +43,14 @@ lij.sp = function(list, context){
 
     // loop through the list
 
-    // if the first item isn't a string, return the list (non-string literals are data)
+    // if the first item isn't a string function or object, return the list (non-string literals are data)
     
-    // else, lookup the string in the function context. if not found, throw an error
+    // if it's a function, call it with (rest, context)
+    // else, resolve the string in the function context. if not found, throw an error
+
+       // what to do about non-function objects as first members?
+       // --> for .. in loop them as first values?
+
     // we'll likely have options from the functions table
     // look at the params (process any which are arrays) to determine which function to call
 

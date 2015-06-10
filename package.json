@@ -1,5 +1,5 @@
 {
-  "name": "lisjp",
+  "name": "lijsp",
   "version": "0.0.1",
   "homepage": "http://nikfrank.com/#/works/lijsp",
   "description": "JS lisp-like dialect interpreter",
@@ -10,9 +10,10 @@
   },
   "keywords": [
     "lisp",
-      "javascript"
+    "javascript"
   ],
   "devDependencies": {
+    "mocha": "^2.2.5"
   },
   "main": "node-shim",
   "engines": {
@@ -28,7 +29,6 @@
   "bugs": {
     "url": "https://github.com/nikfrank/lisjp/issues"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "readmeFilename": "README.md"
 }
