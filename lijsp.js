@@ -1,21 +1,29 @@
+// this already needs to be refactored for async?
+
 var lij = {};
 
 lij.sp = function(list, context){
 
     context = context||{};
 
-    if(Object.prototype.toString.call(list) !== '[object Array]'){
-	// literals
+    var otype = Object.prototype.toString.call;
 
-    }else{
-	if(Object.prototype.toString.call(list[0]) === '[object Array]'){
-	    
-	}else if(Object.prototype.toString.call(list[0]) === '[object Object]'){
-	    
-	    for(var kk in list[0]){}
+    if((otype(list) !== '[object Array]')&&(otype(list) !== '[object Object]')) return list; // literals
+    else{
+	if((otype(list) !== '[object Array]')&&(!list.length)) return null;
+	else if(otype(list[0]) === '[object Array]'){
+	    // sp the array, then start over
+	    return lij.sp([lij.sp(list[0])].concat(list.slice(1)));
 
-	}else if(!list.length) return null;
-	else{
+	}else if(otype(list[0]) === '[object Object]'){
+	    // sp the rest of the list for each k:v pair
+	    // return the object withe returns in place
+	    return Object.keys(list[0]).reduce(function(obj, key){
+		obj[key] = lij.sp([list[0][key]].concat(list.slice(1)));
+		return obj;
+	    }, {});
+
+	}else{
 	    // lookup a function from this non-object
 	}
     }
