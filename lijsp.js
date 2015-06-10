@@ -1,8 +1,9 @@
 // this already needs to be refactored for async?
+// or could async (promises) be integrated with a dialect?
 
 var lij = {};
 
-lij.sp = function(list, context){
+lij.sp = function(list, cx){
 
     context = context||{};
 
@@ -13,56 +14,34 @@ lij.sp = function(list, context){
 	if((otype(list) !== '[object Array]')&&(!list.length)) return null;
 	else if(otype(list[0]) === '[object Array]'){
 	    // sp the array, then start over
-	    return lij.sp([lij.sp(list[0])].concat(list.slice(1)));
+	    return lij.sp([lij.sp(list[0], cx)].concat(list.slice(1)), cx);
 
 	}else if(otype(list[0]) === '[object Object]'){
 	    // sp the rest of the list for each k:v pair
 	    // return the object withe returns in place
 	    return Object.keys(list[0]).reduce(function(obj, key){
-		obj[key] = lij.sp([list[0][key]].concat(list.slice(1)));
+		obj[key] = lij.sp([list[0][key]].concat(list.slice(1)), cx);
 		return obj;
 	    }, {});
 
+	}else if(otype(list[0]) === '[object String]'){
+
+	    // check macros, run the macro on the rest of the list
+
+
+	    // lookup a function from this string
+
+	    // loop through list.slice(1), lij.sp all of them in cx
+
+	    // set nucx with prototype of cx to pass to this function
+
+	    // lij.sp( [fn, ...spdRest], nucx )
+
+
 	}else{
-	    // lookup a function from this non-object
+	    // the first thing isn't sp able -- perhaps there could be plugins that handle these?
+	    // ie: promise, observable, ng-component, regex, generator/iterable
+	    return list;
 	}
     }
-
-    // use this to process query lists into batch calls or whatever
-    // which can be executed parallel if you want (which is a jsql function)
-
-    // there are no pointer types in lisp.
-
-    
-    // list of default functions needed
-    // set, setq, retString
-
-
-    // list of built in macros needed
-    // defun
-
-
-    // if is a macro def?
-
-
-    // if not a list
-    // if a string, return the context value ||| string literal
-    // otherwise, return the literal
-
-    // loop through the list
-
-    // if the first item isn't a string function or object, return the list (non-string literals are data)
-    
-    // if it's a function, call it with (rest, context)
-    // else, resolve the string in the function context. if not found, throw an error
-
-       // what to do about non-function objects as first members?
-       // --> for .. in loop them as first values?
-
-    // we'll likely have options from the functions table
-    // look at the params (process any which are arrays) to determine which function to call
-
-    // if the fn is native, call it with the param values
-    // if the fn is written in jsl, run the defun macro on it, then jsl.process
-    
 };
