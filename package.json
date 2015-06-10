@@ -1,0 +1,34 @@
+{
+  "name": "lisjp",
+  "version": "0.0.1",
+  "homepage": "http://nikfrank.com/#/works/lijsp",
+  "description": "JS lisp-like dialect interpreter",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikfrank/lisjp.git"
+  },
+  "keywords": [
+    "lisp",
+      "javascript"
+  ],
+  "devDependencies": {
+  },
+  "main": "node-shim",
+  "engines": {
+    "node": ">= 0.10.0",
+    "npm": ">= 1.3.0"
+  },
+  "author": {
+    "name": "Nik Frank",
+    "email": "nikbfrank+npm@gmail.com",
+    "url": "http://nikfrank.com/"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nikfrank/lisjp/issues"
+  },
+  "scripts": {
+  },
+  "readmeFilename": "README.md"
+}
