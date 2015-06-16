@@ -36,6 +36,8 @@ else, resolve the string in the function context. if not found, throw an error
 
 what to do about non-function objects as first members?
 --> for .. in loop them as first values?
+	    // sp the rest of the list for each k:v pair
+	    // return the object withe returns in place
 
 we'll likely have options from the functions table
 look at the params (process any which are arrays) to determine which function to call

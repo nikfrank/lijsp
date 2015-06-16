@@ -23,7 +23,27 @@ describe('lijsp', function(){
 	it('checks the scripts are evaluated correctly', function(done){
 	    
 	    lij.sp();
-	    
+
+	    [
+		true,
+		0,
+		'blah',
+		function(){},
+		/blah/,
+		new Date,
+
+		[],
+		[2015, 5, 16, 17, 28, 30],
+		['date', [2015,5,16,17,28,30]],
+		['+', 1, 2, 3, 4],
+		['-', 1, 2, 3, 4],
+		[{sum:'+', diff:'-'}, 50, 13, 25, 22],
+
+		['\'', ['blah', 'hmm']]
+	    ]
+
+
+
 	});
     });
 
