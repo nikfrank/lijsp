@@ -4,11 +4,13 @@
 
 var lij = {};
 
-lij.cx = {}; // here put built-in library, load libraries to extend it with
+// here put built-in library, load libraries to extend it with
+lij.cx = {};
 
-lij.sp = function(list, pcx){
+lij.sp = function(list, pcx, caller){
 
-    cx = Object.create(pcx||lij.cx);
+    cx = Object.create(pcx||this.pcx||lij.cx);
+    caller = caller||this.caller;
 
     var otype = Object.prototype.toString.call;
 
@@ -25,18 +27,24 @@ lij.sp = function(list, pcx){
 	    }, {});
 
 	}else if(otype(list[0]) === '[object Function]'){
-	    // lij.sp( [fn, ...spdRest], nucx )
+	    var plist = list[0].toString().split(')')[0].slice(10).split(',');
 
-		// check the function's signature is (params, cx, pcx)
-	        // or (whatever it is) for a macro
+	    if(plist.length === 3){// function call
+		return list[0](list.slice(1).map(lij.sp.bind({pcx:cx, caller:list[0]}), cx, pcx);
+
+	    }else if(plist.length === 2){// macro call
+//		if(caller.noRunMacro) // caller property run macro?
+//		    return list[0](list.slice(1));
+//		else
+		    return lij.sp(list[0](list.slice(1)), cx, list[0]);
+	    }
 
 	}else if(otype(list[0]) === '[object String]'){
 
 	    // check macros, run the macro on the rest of the list
 
-	    if((typeof cx[list[0]] === 'function')||
-	       ((otype(cx[list[0]]) === '[object Array]')&&(cx[list[0]][0] === 'function'))){
-		// check the function's signature is (params, cx, pcx)
+	    if(typeof cx[list[0]].type === 'function'){
+		// check the function's signature is (par ams, cx, pcx)
 		
 		// loop through list.slice(1.. n), lij.sp all of them in cx
 
