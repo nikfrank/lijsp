@@ -30,7 +30,7 @@ lij.sp = function(list, pcx, caller){
 	    var plist = list[0].toString().split(')')[0].slice(10).split(',');
 
 	    if(plist.length === 3){// function call
-		return list[0](list.slice(1).map(lij.sp.bind({pcx:cx, caller:list[0]}), cx, pcx);
+		return list[0](list.slice(1).map(lij.sp.bind({pcx:cx, caller:list[0]})), cx, pcx);
 
 	    }else if(plist.length === 2){// macro call
 //		if(caller.noRunMacro) // caller property run macro?
@@ -41,15 +41,9 @@ lij.sp = function(list, pcx, caller){
 
 	}else if(otype(list[0]) === '[object String]'){
 
-	    // check macros, run the macro on the rest of the list
-
-	    if(typeof cx[list[0]].type === 'function'){
-		// check the function's signature is (par ams, cx, pcx)
-		
-		// loop through list.slice(1.. n), lij.sp all of them in cx
-
-		// call that mafk
-	    }
+	    return (typeof cx[list[0]].type === 'function')?
+		lij.sp([cx[list[0]]].concat(list.slice(1)), pcx):
+		[list[0]].concat(list.slice(1).map(lij.sp.bind({pcx:cx, caller:list[0]})));
 
 	}else{
 	    // the first thing isn't sp able -- perhaps there could be plugins that handle these?
