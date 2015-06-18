@@ -1,6 +1,6 @@
 {
   "name": "lijsp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "http://nikfrank.com/#/works/lijsp",
   "description": "JS lisp-like dialect interpreter",
   "dependencies": {},
