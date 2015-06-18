@@ -49,12 +49,13 @@ if the fn is written in jsl, run the defun macro on it, then jsl.process
 --------
 
 
-function(cdr, cx, pcx){
+function(pms, cx, pcx){
 // function, which can return whatever the fuck it wants
 }
 
-function(params){
-// macros operate without a context
-// then the returned list is run
-// unless you're running this in a macroexpand or macroexpandall
+function(cdr, cx, pcx){
+// macros operate with a context
+// if the first param is pcdr this will run after expansion
+// if the call name is postfixed with () (or ends with it by def)
+// the macro will run after expansion
 }
