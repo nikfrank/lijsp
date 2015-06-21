@@ -59,7 +59,7 @@ describe('lijsp', function(){
 		    return pms[0].toUpperCase();
 		}, 'now'],
 
-		['def', 'reverse'],
+		['get', 'reverse'],
 
 		['map', 'reverse', ['\'', 'blah', 'hmm', 'now']],
 
@@ -68,7 +68,13 @@ describe('lijsp', function(){
 		    return pms[0].toUpperCase();
 		}, ['\'', 'blah', 'hmm', 'now']],
 
-		
+		['set', 'greeting', 'rawr'],
+		['get', 'greeting'],
+
+		[['fn', 'echo', ['txt'],
+		 ['set', 't', 'txt'],
+		 ['get', 't']
+		], 'rawrr']
 	    ];
 
 	    items.forEach(function(i){

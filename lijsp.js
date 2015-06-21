@@ -13,7 +13,7 @@ lij.cx = {
 	for(var ff in pms[0]) tgt[ff] = pms[0][ff];
     },
 
-    def:function(pms, cx, pcx){
+    get:function(pms, cx, pcx){
 	return cx[pms[0]];
     }
 };
@@ -53,6 +53,13 @@ lij.core = {
 	return lij.cx[pms[0]] = pms[1];
     },
 
+    set:function(pms, cx, pcx){
+	return pcx[pms[0]] = pms[1];
+    },
+    setg:function(pms, cx, pcx){
+	return lij.cx[pms[0]] = pms[1];
+    },
+
     fn:function(pcdr, cx, pcx){
 	var mcx = cx, mpcx = pcx;
 	// run the function defined by pms
@@ -62,14 +69,23 @@ lij.core = {
 	  (* 7 number))
 	*/
 
-	// -> pcdr[0] is the list of params
-	// pcdr.slice(1) is an array of lists to sp in cx
+	// -> pcdr[1] is the list of params
+	// pcdr.slice(2) is an array of lists to sp in cx
 	// pcdr[end] is the returned value
 	return function(pms, cx, pcx){
-	    for(var i=pcdr[0].length; i-->0;) cx[pcdr[i]] = pms[i];
-	    var body = pcdr.slice(1);
-	    for(var i=0; i<body.length-1; ++i) lij.sp(body[i], cx, pcx);
-	    return lij.sp(body[body.length-1], cx, pcx);
+	    var jbody = JSON.stringify(pcdr.slice(2));
+	    for(var i=pcdr[1].length; i-->0;)
+		jbody = jbody.replace(JSON.stringify(pcdr[1][i]), JSON.stringify(pms[i]))
+///////////////////////////////////////////////////////////
+	    // there's a more accurate way to do this
+	    // recursing through the data and replacing
+	    // instead of replace raping it
+///////////////////////////////////////////////////////////
+
+	    var body = JSON.parse(jbody);
+
+	    for(var i=0; i<body.length-1; ++i) lij.sp(body[i], pcx);
+	    return lij.sp(body[body.length-1], pcx);
 	};
     },
 
@@ -97,7 +113,7 @@ lij.func = {
     // spread-map (takes multiple lists and maps them to multiple params on the fn)
 
     map:function(pms, cx, pcx){
-	var fn = (typeof pms[0] === 'string')? lij.sp(['def', pms[0]], cx): pms[0];
+	var fn = (typeof pms[0] === 'string')? lij.sp(['get', pms[0]], cx): pms[0];
 	return pms[1].map(function(pm, i){ return fn([pm], cx, pcx); });
     },
 
@@ -127,12 +143,15 @@ lij.func = {
 };
 
 
+var count = 0;
 
 lij.sp = function(list, pcx, caller){
 
+    pcx = this.pcx||pcx||Object.create(lij.cx);
     var cx = Object.create(this.pcx||pcx||lij.cx);
-
     caller = caller||this.caller;
+
+    cx.count = count++;
 
     var otype = function(e){return Object.prototype.toString.call(e);};
 
@@ -161,13 +180,14 @@ lij.sp = function(list, pcx, caller){
 	    }
 
 	}else if(otype(list[0]) === '[object String]'){
+	    //console.log('str fn '+list[0], list, cx, pcx);
 	    if(typeof cx[list[0].split('(')[0]] === 'function'){
-		return lij.sp([cx[list[0]]].concat(list.slice(1)), cx, list[0]);
+		return lij.sp([cx[list[0]]].concat(list.slice(1)), pcx, list[0]);
 
 	    }else if(otype(cx[list[0].split('(')[0]]) === '[object Array]'){
 		// context var resolves to a list
 		// function or macro
-		return lij.sp([lij.sp(cx[list[0].split('(')[0]], cx, pcx)].concat(list.slice(1)), cx, pcx);
+		return lij.sp([lij.sp(cx[list[0].split('(')[0]], pcx)].concat(list.slice(1)), pcx);
 
 	    }else return [list[0]].concat(list.slice(1).map(lij.sp.bind({pcx:cx, caller:list[0]})));
 
