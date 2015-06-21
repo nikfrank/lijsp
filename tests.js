@@ -57,7 +57,16 @@ describe('lijsp', function(){
 
 		[function(pms, cx, pcx){
 		    return pms[0].toUpperCase();
-		}, 'now']
+		}, 'now'],
+
+		['def', 'reverse'],
+
+		['map', 'reverse', ['\'', 'blah', 'hmm', 'now']],
+
+
+		['map', function(pms, cx, pcx){
+		    return pms[0].toUpperCase();
+		}, ['\'', 'blah', 'hmm', 'now']],
 
 		
 	    ];

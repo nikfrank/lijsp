@@ -11,6 +11,10 @@ lij.cx = {
 	// move all other functions and macros into blocks to load
 	var tgt = pms[1]||lij.cx;
 	for(var ff in pms[0]) tgt[ff] = pms[0][ff];
+    },
+
+    def:function(pms, cx, pcx){
+	return cx[pms[0]];
     }
 };
 
@@ -87,8 +91,39 @@ lij.core = {
     }
 };
 
+
 lij.func = {
     // functional library: map, reduce, sort, filter, prop, spread, curry
+    // spread-map (takes multiple lists and maps them to multiple params on the fn)
+
+    map:function(pms, cx, pcx){
+	var fn = (typeof pms[0] === 'string')? lij.sp(['def', pms[0]], cx): pms[0];
+	return pms[1].map(function(pm, i){ return fn([pm], cx, pcx); });
+    },
+
+    reduce:function(pms, cx, pcx){
+	
+    },
+
+    sort:function(pms, cx, pcx){
+	
+    },
+
+    filter:function(pms, cx, pcx){
+	
+    },
+
+    prop:function(pms, cx, pcx){
+	
+    },
+
+    spread:function(pms, cx, pcx){
+	
+    },
+
+    curry:function(pms, cx, pcx){
+	
+    }
 };
 
 
@@ -145,5 +180,6 @@ lij.sp = function(list, pcx, caller){
 };
 
 lij.sp(['load', lij.core]);
+lij.sp(['load', lij.func]);
 
 if(module) module.exports = lij;
