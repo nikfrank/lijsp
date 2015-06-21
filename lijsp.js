@@ -6,6 +6,15 @@ var lij = {};
 
 // here put built-in library, load libraries to extend it with
 lij.cx = {
+    load:function(pms, cx, pcx){
+	// load pms[0][...] into pms[1] or the global context
+	// move all other functions and macros into blocks to load
+	var tgt = pms[1]||lij.cx;
+	for(var ff in pms[0]) tgt[ff] = pms[0][ff];
+    }
+};
+
+lij.core = {
     defun:function(cdr, cx, pcx){
 	// put a lijsp fn ['progn', pms] onto the pcx
 	return pcx[cdr[0]] = ['fn'].concat(cdr.slice(1));
@@ -78,6 +87,12 @@ lij.cx = {
     }
 };
 
+lij.func = {
+    // functional library: map, reduce, sort, filter, prop, spread, curry
+};
+
+
+
 lij.sp = function(list, pcx, caller){
 
     var cx = Object.create(this.pcx||pcx||lij.cx);
@@ -128,5 +143,7 @@ lij.sp = function(list, pcx, caller){
 	}
     }
 };
+
+lij.sp(['load', lij.core]);
 
 if(module) module.exports = lij;

@@ -39,7 +39,27 @@ describe('lijsp', function(){
 		[{sum:'+', diff:'-'}, 50, 13, 25, 22],
 
 		["'", 'blah', 'hmm'],
-		["'", ['blah', 'hmm']]
+		["'", ['blah', 'hmm']],
+
+		// defun, degfun, setfun, setgfun
+
+		['setgfun', 'reverse', function(pms, cx, pcx){
+		    return pms[0].split('').reverse().join('');
+		}],
+
+		['reverse', 'blah'],
+
+		[['setfun', 'caps', function(pms, cx, pcx){
+		    return pms[0].toUpperCase();
+		}], 'blah'],
+
+		['caps', 'hmm'],
+
+		[function(pms, cx, pcx){
+		    return pms[0].toUpperCase();
+		}, 'now']
+
+		
 	    ];
 
 	    items.forEach(function(i){
