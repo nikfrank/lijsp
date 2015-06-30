@@ -81,6 +81,10 @@ lij.core = {
 	    // there's a more accurate way to do this
 	    // recursing through the data and replacing
 	    // instead of replace raping it
+
+// use the lambda calculus alpha substitution rules
+
+
 ///////////////////////////////////////////////////////////
 
 	    var body = JSON.parse(jbody);
