@@ -21,11 +21,12 @@ lij.cx = {
 lij.core = {
     defun:function(cdr, cx, pcx){
 	// put a lijsp fn ['progn', pms] onto the pcx
-	return pcx[cdr[0]] = ['fn'].concat(cdr.slice(1));
+	return pcx[cdr[0]] = ['fn'].concat(cdr);
     },
     degfun:function(cdr, cx, pcx){
 	// put a lijsp fn ['progn', pms] onto the lij.cx
-	return lij.cx[cdr[0]] = ['fn'].concat(cdr.slice(1));
+	// curry inject with cdr[1] param list here?
+	return lij.cx[cdr[0]] = ['fn'].concat(cdr);
     },
 
     setfun:function(pms, cx, pcx){
@@ -84,8 +85,8 @@ lij.core = {
 
 	    var body = JSON.parse(jbody);
 
-	    for(var i=0; i<body.length-1; ++i) lij.sp(body[i], pcx);
-	    return lij.sp(body[body.length-1], pcx);
+	    for(var i=0; i<body.length-1; ++i) lij.sp(body[i], pcx, pcdr[0]);
+	    return lij.sp(body[body.length-1], pcx, pcdr[0]);
 	};
     },
 
